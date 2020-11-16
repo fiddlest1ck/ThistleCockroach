@@ -1,18 +1,12 @@
-from drawSvg.elements import Rectangle
-from cockroach.utils import TylkoRectangle, return_width_height
+import pytest
+
+from cockroach.utils import get_width_height
 from utils import get_rect_as_dictionary
 
 
-def test_tylko_rectangle():
-    t_rectangle = TylkoRectangle(1, 2, 3, 4).args
-    d_rectangle = Rectangle(1, 2, 3, 4).args
-
-    assert d_rectangle['y'] == -t_rectangle['y'] - t_rectangle['height']
-    assert t_rectangle['y'] == 2
-
-
-def test_return_width_height():
-    assert return_width_height(2, 1, 2, 1) == (1, 1)
+@pytest.mark.parametrize('x1,x2,y1,y2', [(1, 2, 1, 2), (2, 3, 2, 3), (1, 4, 6, 8)])
+def test_get_width_height(x1, x2, y1, y2):
+    assert get_width_height(x1, x2, y1, y2) == (x2 - x1, y2 - y1)
 
 
 def test_get_rect_as_dictionary():

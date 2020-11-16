@@ -13,7 +13,7 @@ class TylkoRectangle(DrawingBasicElement):
                          **kwargs)
 
 
-def return_width_height(x2, x1, y2, y1):
+def get_width_height(x1, x2, y1, y2):
     width = x2 - x1
     height = y2 - y1
     return width, height

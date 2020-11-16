@@ -1,38 +1,39 @@
-import pytest
-
 from rest_framework.status import HTTP_200_OK
-from cockroach.utils import return_width_height
-from utils import get_rect_as_dictionary
 
-FIRST_CASE = {"geometry": [{"x1": -207, "x2": -332, "y1": 9, "y2": 191, "z1": 0, "z2": 18}],
-              "projection_plane": "XY"}
-SECOND_CASE = {"geometry": [{"x1": -207, "x2": -332, "y1": 209, "y2": 391, "z1": 0, "z2": 18}],
-               "projection_plane": "XZ"}
-THIRD_CASE = {"geometry": [{"x1": 207, "x2": 332, "y1": 9, "y2": 191, "z1": 0, "z2": 18}],
-              "projection_plane": "YZ"}
+from utils import get_rect_as_dictionary, default_geometry
 
 
-@pytest.mark.parametrize("test_input", [FIRST_CASE, SECOND_CASE, THIRD_CASE])
-def test_projection(api_client, test_input):
-    response = api_client.post('/api/v1/cockroach/projection', data=test_input, format='json')
-    response_as_text = response.content.decode('utf-8')
+PROJECTION_URL = '/api/v1/cockroach/projection'
 
-    dict_response = get_rect_as_dictionary(response_as_text)
-    geometry_element = test_input['geometry'][0]
 
-    projection_plane = test_input['projection_plane']
-    x_factor = projection_plane[0].lower()
-    y_factor = projection_plane[1].lower()
+def test_XY_projection(api_client):
+    response = api_client.post(PROJECTION_URL,
+                               data=default_geometry('XY'), format='json')
+    dict_response = get_rect_as_dictionary(response.content.decode('utf-8'))
+    assert dict_response['x'] == -207
+    assert dict_response['y'] == 9
+    assert dict_response['width'] == -125
+    assert dict_response['height'] == 182
+    assert response.status_code == HTTP_200_OK
 
-    x1 = int(geometry_element[f'{x_factor}1'])
-    x2 = int(geometry_element[f'{x_factor}2'])
-    y1 = int(geometry_element[f'{y_factor}1'])
-    y2 = int(geometry_element[f'{y_factor}2'])
 
-    width, height = return_width_height(x2, x1, y2, y1)
+def test_XZ_projection(api_client):
+    response = api_client.post(PROJECTION_URL,
+                               data=default_geometry('XZ'), format='json')
+    dict_response = get_rect_as_dictionary(response.content.decode('utf-8'))
+    assert dict_response['x'] == -207
+    assert dict_response['y'] == 0
+    assert dict_response['width'] == -125
+    assert dict_response['height'] == 18
+    assert response.status_code == HTTP_200_OK
 
-    assert dict_response['x'] == x1
-    assert dict_response['y'] == y1
-    assert dict_response['width'] == width
-    assert dict_response['height'] == height
+
+def test_YZ_projection(api_client):
+    response = api_client.post(PROJECTION_URL,
+                               data=default_geometry('YZ'), format='json')
+    dict_response = get_rect_as_dictionary(response.content.decode('utf-8'))
+    assert dict_response['x'] == 9
+    assert dict_response['y'] == 0
+    assert dict_response['width'] == 182
+    assert dict_response['height'] == 18
     assert response.status_code == HTTP_200_OK
