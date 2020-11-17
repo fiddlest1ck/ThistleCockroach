@@ -1,11 +1,11 @@
-FROM python:3
+FROM python:3.9
 RUN apt update -y
 
 RUN mkdir app
+COPY requirements.txt /app
+RUN pip3 install -r /app/requirements.txt
 
 COPY . /app
-RUN python3 --version
-RUN pip3 install -r /app/requirements.txt
 
 EXPOSE 8000
 WORKDIR /app

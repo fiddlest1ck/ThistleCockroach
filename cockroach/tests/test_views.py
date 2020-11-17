@@ -1,14 +1,11 @@
+from django.urls import reverse
 from rest_framework.status import HTTP_200_OK
-
-from utils import get_rect_as_dictionary, default_geometry
-
-
-PROJECTION_URL = '/api/v1/cockroach/projection'
+from utils import default_geometry, get_rect_as_dictionary
 
 
-def test_XY_projection(api_client):
-    response = api_client.post(PROJECTION_URL,
-                               data=default_geometry('XY'), format='json')
+def test_XY_projection(client):
+    response = client.post(reverse('projection'), data=default_geometry('XY'),
+                           content_type='application/json')
     dict_response = get_rect_as_dictionary(response.content.decode('utf-8'))
     assert dict_response['x'] == -207
     assert dict_response['y'] == 9
@@ -17,9 +14,9 @@ def test_XY_projection(api_client):
     assert response.status_code == HTTP_200_OK
 
 
-def test_XZ_projection(api_client):
-    response = api_client.post(PROJECTION_URL,
-                               data=default_geometry('XZ'), format='json')
+def test_XZ_projection(client):
+    response = client.post(reverse('projection'), data=default_geometry('XZ'),
+                           content_type='application/json')
     dict_response = get_rect_as_dictionary(response.content.decode('utf-8'))
     assert dict_response['x'] == -207
     assert dict_response['y'] == 0
@@ -28,9 +25,9 @@ def test_XZ_projection(api_client):
     assert response.status_code == HTTP_200_OK
 
 
-def test_YZ_projection(api_client):
-    response = api_client.post(PROJECTION_URL,
-                               data=default_geometry('YZ'), format='json')
+def test_YZ_projection(client):
+    response = client.post(reverse('projection'), data=default_geometry('YZ'),
+                           content_type='application/json')
     dict_response = get_rect_as_dictionary(response.content.decode('utf-8'))
     assert dict_response['x'] == 9
     assert dict_response['y'] == 0

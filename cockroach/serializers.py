@@ -9,13 +9,7 @@ class GeometrySerializer(serializers.Serializer):
     z1 = serializers.IntegerField()
     z2 = serializers.IntegerField()
 
-    class Meta:
-        ref_name = 'Geometry'
-
 
 class BodySerializer(serializers.Serializer):
     geometry = GeometrySerializer(many=True)
     projection_plane = serializers.CharField(required=True, max_length=2)
-
-    class Meta:
-        ref_name = 'Body'

@@ -1,6 +1,6 @@
 import drawSvg as draw
 
-from cockroach.utils import get_width_height, TylkoRectangle
+from cockroach.utils import TylkoRectangle, get_width_height
 
 
 class SvgCreator:

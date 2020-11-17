@@ -22,6 +22,11 @@ This quickstart will show you how to install dependencies and run application lo
     
 # You can run application as:
 
+#### Docker-compose version:
+    docker-compose up --build
+* this version run with nginx at 80 port
+* I highly recommend this version ( you know, one command, one small coffe and voila ! ).
+
 #### Development version:
     python3 manage.py runserver
     or
@@ -39,11 +44,6 @@ in nginx/ direcory
     docker build -t cockroachnginx .
     docker run --network=host -d -ti cockroachnginx
 * this version run with nginx at 80 port 
-
-#### Docker-compose version:
-    docker-compose up --build
-* this version run with nginx at 80 port
-* I'm highly recommend this version ( you know, one command, one small coffe and voila ! ).
 
 #### For test you can make request like:
     curl -v -X POST -d <data from example input.json> -H "Content-Type: application/json" http://0.0.0.0:<running-port>/api/v1/cockroach/projection/

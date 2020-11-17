@@ -1,11 +1,10 @@
 from django.http import HttpResponse
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 
-from cockroach.svg_creator import SvgCreator
 from cockroach.serializers import BodySerializer
-
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
+from cockroach.svg_creator import SvgCreator
 
 
 class ProjectionView(APIView):

@@ -1,7 +1,7 @@
 import pytest
+from utils import get_rect_as_dictionary
 
 from cockroach.utils import get_width_height
-from utils import get_rect_as_dictionary
 
 
 @pytest.mark.parametrize('x1,x2,y1,y2', [(1, 2, 1, 2), (2, 3, 2, 3), (1, 4, 6, 8)])
