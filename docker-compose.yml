@@ -1,0 +1,12 @@
+version: '3'
+services:
+  cockroach:
+    network_mode: host
+    build: .
+    ports:
+    - "8000:8000"
+  cockroachnginx:
+    network_mode: host
+    build: nginx/.  
+    ports:
+    - "80:80"
